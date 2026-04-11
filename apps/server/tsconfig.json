@@ -6,6 +6,7 @@
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "paths": {
       "@pawmind/shared": ["../../packages/shared/src"]
     }
