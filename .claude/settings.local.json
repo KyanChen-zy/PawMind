@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm --version)",
+      "Bash(npx --version)",
+      "Bash(expo-cli --version)",
+      "Bash(nest --version)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx nest:*)",
+      "Bash(npx jest:*)",
+      "Bash(npx create-expo-app@latest mobile --template blank-typescript)",
+      "Bash(npx expo:*)",
+      "Bash(npx tsc:*)",
+      "Bash(createdb pawmind:*)",
+      "Bash(# 移动产品架构/PRD\ncp \"docs/PawMind-AI宠物陪伴App-产品架构与PRD-v1.0.md\" docs/prd/v1.0-mvp.md\n\n# 移动技术设计文档\nmv docs/superpowers/specs/2026-04-12-pawmind-mvp-design.md docs/design/2026-04-12-pawmind-mvp-design.md\n\n# 移动实施计划\nmv docs/superpowers/plans/2026-04-12-pawmind-phase1.md docs/plans/2026-04-12-mvp-phase1-plan.md\n\n# 移动开发指南\nmv docs/AI_CODING_GUIDELINES.md docs/guides/coding-guidelines.md\nmv docs/preview-guide.md docs/guides/preview-guide.md\nmv docs/UI-Design-Optimization.md docs/guides/ui-design-optimization.md\n\n# 清理旧目录和原文件\nrm \"docs/PawMind-AI宠物陪伴App-产品架构与PRD-v1.0.md\"\nrm -rf docs/superpowers\n\necho \"Done\")",
+      "Bash(git push:*)"
+    ]
+  }
+}
