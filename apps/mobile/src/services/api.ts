@@ -1,11 +1,23 @@
 import * as SecureStore from 'expo-secure-store';
+import { Platform } from 'react-native';
 import { API_BASE_URL } from '../constants/api';
+
+// Platform-specific storage implementation
+const storage = {
+  async getItem(key: string): Promise<string | null> {
+    if (Platform.OS === 'web') {
+      return localStorage.getItem(key);
+    } else {
+      return await SecureStore.getItemAsync(key);
+    }
+  }
+};
 
 class ApiClient {
   private baseUrl = API_BASE_URL;
 
   private async getToken(): Promise<string | null> {
-    return SecureStore.getItemAsync('accessToken');
+    return storage.getItem('accessToken');
   }
 
   async request<T>(path: string, options: RequestInit = {}): Promise<T> {

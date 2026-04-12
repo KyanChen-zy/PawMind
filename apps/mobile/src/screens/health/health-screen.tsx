@@ -42,8 +42,8 @@ export function HealthScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.pageTitle}>{currentPet.name} 的健康</Text>
         {alerts.length > 0 && (
           <View style={styles.section}>
@@ -61,37 +61,76 @@ export function HealthScreen() {
           <Text style={styles.sectionTitle}>今日健康记录</Text>
           <View style={styles.inputRow}>
             <Text style={styles.label}>体重 (kg)</Text>
-            <TextInput style={styles.numberInput} value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder={String(currentPet.weight)} />
+            <TextInput 
+              style={styles.numberInput} 
+              value={weight} 
+              onChangeText={setWeight} 
+              keyboardType="decimal-pad" 
+              placeholder={String(currentPet.weight)}
+              placeholderTextColor={COLORS.textLight}
+            />
           </View>
           <Text style={styles.label}>食欲</Text>
           <View style={styles.chipRow}>
             {['low', 'normal', 'high'].map((level) => (
-              <TouchableOpacity key={level} style={[styles.chip, appetite === level && styles.chipActive]} onPress={() => setAppetite(level)}>
-                <Text style={appetite === level ? styles.chipTextActive : styles.chipText}>{level === 'low' ? '偏低' : level === 'normal' ? '正常' : '偏高'}</Text>
+              <TouchableOpacity 
+                key={level} 
+                style={[styles.chip, appetite === level && styles.chipActive]} 
+                onPress={() => setAppetite(level)}
+                activeOpacity={0.7}
+              >
+                <Text style={appetite === level ? styles.chipTextActive : styles.chipText}>
+                  {level === 'low' ? '偏低' : level === 'normal' ? '正常' : '偏高'}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
           <Text style={styles.label}>活动量</Text>
           <View style={styles.chipRow}>
             {['low', 'normal', 'high'].map((level) => (
-              <TouchableOpacity key={level} style={[styles.chip, activity === level && styles.chipActive]} onPress={() => setActivity(level)}>
-                <Text style={activity === level ? styles.chipTextActive : styles.chipText}>{level === 'low' ? '偏低' : level === 'normal' ? '正常' : '偏高'}</Text>
+              <TouchableOpacity 
+                key={level} 
+                style={[styles.chip, activity === level && styles.chipActive]} 
+                onPress={() => setActivity(level)}
+                activeOpacity={0.7}
+              >
+                <Text style={activity === level ? styles.chipTextActive : styles.chipText}>
+                  {level === 'low' ? '偏低' : level === 'normal' ? '正常' : '偏高'}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity style={styles.recordBtn} onPress={handleRecord}>
+          <TouchableOpacity 
+            style={styles.recordBtn} 
+            onPress={handleRecord}
+            activeOpacity={0.8}
+          >
             <Text style={styles.recordBtnText}>保存记录</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>近 7 天趋势</Text>
-          {logs.length === 0 ? <Text style={styles.emptyText}>暂无数据</Text> : logs.map((log) => (
-            <View key={log.id} style={styles.logRow}>
-              <Text style={styles.logDate}>{log.date}</Text>
-              <Text style={styles.logValue}>{log.weight ? `${log.weight}kg` : '-'}</Text>
-              <Text style={styles.logValue}>{log.appetiteLevel || '-'}</Text>
+          {logs.length === 0 ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyText}>暂无数据</Text>
+              <Text style={styles.emptySubText}>开始记录健康数据，查看趋势变化</Text>
             </View>
-          ))}
+          ) : (
+            <View>
+              {logs.map((log) => (
+                <View key={log.id} style={styles.logRow}>
+                  <Text style={styles.logDate}>{log.date}</Text>
+                  <Text style={styles.logValue}>{log.weight ? `${log.weight}kg` : '-'}</Text>
+                  <Text style={styles.logValue}>
+                    {log.appetiteLevel === 'low' ? '偏低' : log.appetiteLevel === 'normal' ? '正常' : log.appetiteLevel === 'high' ? '偏高' : '-'}
+                  </Text>
+                  <Text style={styles.logValue}>
+                    {log.activityLevel === 'low' ? '偏低' : log.activityLevel === 'normal' ? '正常' : log.activityLevel === 'high' ? '偏高' : '-'}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -100,6 +139,7 @@ export function HealthScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
+  scrollContent: { paddingBottom: SPACING.xl },
   pageTitle: { fontSize: 22, fontWeight: '700', padding: SPACING.md },
   section: { backgroundColor: COLORS.surface, borderRadius: 16, padding: SPACING.md, marginHorizontal: SPACING.md, marginBottom: SPACING.md },
   sectionTitle: { fontSize: 16, fontWeight: '700', marginBottom: SPACING.md },
@@ -111,15 +151,17 @@ const styles = StyleSheet.create({
   label: { fontSize: 14, color: COLORS.textSecondary, marginBottom: SPACING.sm },
   numberInput: { backgroundColor: COLORS.background, borderRadius: 8, padding: SPACING.sm, width: 100, textAlign: 'center', fontSize: 16 },
   chipRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.md },
-  chip: { borderRadius: 16, paddingHorizontal: SPACING.md, paddingVertical: SPACING.sm, borderWidth: 1, borderColor: COLORS.border },
+  chip: { flex: 1, borderRadius: 16, paddingHorizontal: SPACING.md, paddingVertical: SPACING.sm, borderWidth: 1, borderColor: COLORS.border, alignItems: 'center' },
   chipActive: { backgroundColor: COLORS.primary, borderColor: COLORS.primary },
   chipText: { color: COLORS.textSecondary },
   chipTextActive: { color: '#FFF' },
   recordBtn: { backgroundColor: COLORS.primary, borderRadius: 12, padding: SPACING.md, alignItems: 'center', marginTop: SPACING.sm },
   recordBtnText: { color: '#FFF', fontSize: 16, fontWeight: '600' },
   logRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: SPACING.sm, borderBottomWidth: 1, borderBottomColor: COLORS.border },
-  logDate: { fontSize: 14, color: COLORS.text },
-  logValue: { fontSize: 14, color: COLORS.textSecondary },
+  logDate: { fontSize: 14, color: COLORS.text, flex: 2 },
+  logValue: { fontSize: 14, color: COLORS.textSecondary, flex: 1, textAlign: 'center' },
   empty: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  emptyText: { color: COLORS.textSecondary, textAlign: 'center' },
+  emptyState: { padding: SPACING.xl, alignItems: 'center' },
+  emptyText: { color: COLORS.textSecondary, textAlign: 'center', fontSize: 16 },
+  emptySubText: { color: COLORS.textLight, textAlign: 'center', fontSize: 14, marginTop: SPACING.sm },
 });

@@ -15,7 +15,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   isLoggedIn: false,
   userId: null,
-  loading: false,
+  loading: true,
   error: null,
 
   login: async (email, password) => {
@@ -44,7 +44,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   checkAuth: async () => {
-    const loggedIn = await authService.isLoggedIn();
-    set({ isLoggedIn: loggedIn });
+    try {
+      const loggedIn = await authService.isLoggedIn();
+      set({ isLoggedIn: loggedIn, loading: false });
+    } catch {
+      set({ isLoggedIn: false, loading: false });
+    }
   },
 }));
