@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { usePetStore } from '../../stores/pet.store';
 import * as chatService from '../../services/chat';
@@ -81,26 +81,24 @@ export function ChatScreen() {
           </View>
         }
       />
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.keyboardAvoid}>
-        <View style={styles.inputBar}>
-          <TextInput 
-            style={styles.input} 
-            value={input} 
-            onChangeText={setInput} 
-            placeholder="说点什么..." 
-            onSubmitEditing={() => handleSend()}
-            multiline
-            maxLength={500}
-          />
-          <TouchableOpacity 
-            style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]} 
-            onPress={() => handleSend()} 
-            disabled={!input.trim() || sending}
-          >
-            <Text style={styles.sendText}>发送</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+      <View style={styles.inputBar}>
+        <TextInput
+          style={styles.input}
+          value={input}
+          onChangeText={setInput}
+          placeholder="说点什么..."
+          onSubmitEditing={() => handleSend()}
+          multiline
+          maxLength={500}
+        />
+        <TouchableOpacity
+          style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]}
+          onPress={() => handleSend()}
+          disabled={!input.trim() || sending}
+        >
+          <Text style={styles.sendText}>发送</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -116,7 +114,6 @@ const styles = StyleSheet.create({
   userText: { color: '#FFF', fontSize: 15, lineHeight: 20 },
   aiText: { color: COLORS.text, fontSize: 15, lineHeight: 20 },
   emotionTag: { fontSize: 12, color: COLORS.textSecondary, marginTop: 4 },
-  keyboardAvoid: { flex: 0 },
   inputBar: { flexDirection: 'row', padding: SPACING.sm, borderTopWidth: 1, borderTopColor: COLORS.border, backgroundColor: COLORS.surface, alignItems: 'flex-end' },
   input: { flex: 1, backgroundColor: COLORS.background, borderRadius: 20, paddingHorizontal: SPACING.md, paddingVertical: SPACING.sm, fontSize: 15, maxHeight: 100 },
   sendBtn: { backgroundColor: COLORS.primary, borderRadius: 20, paddingHorizontal: SPACING.md, paddingVertical: SPACING.sm, justifyContent: 'center', marginLeft: SPACING.sm },
