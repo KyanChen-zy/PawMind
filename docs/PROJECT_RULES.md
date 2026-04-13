@@ -47,9 +47,9 @@ docs/
 
 | 版本 | 目标 | 状态 |
 |------|------|------|
-| v1.0 MVP | 建档 + AI 对话 + 健康管理 + 成长记录 | 开发中 |
-| v1.5 | 智能设备联动 + 宠医问诊 + 付费会员 | 规划中 |
-| v2.0 | 宠物社区 + AI 行为分析 + 多人共养 | 规划中 |
+| v1.0 MVP | 建档 + AI 对话 + 健康管理 + 成长记录 | 已完成 |
+| v2.0 | AI 健康管理升级（多渠道数据 + 可视化 + 设备管理 + 疫苗本 + 健康档案）+ CareAI（问答 + 诊断） | 开发中 |
+| v3.0 | 宠物社区 + AI 行为分析 + 多人共养 / 宠物交友 | 规划中 |
 
 ### 分支策略
 
@@ -133,7 +133,7 @@ main                    ← 稳定发布分支
 
 ### scope 范围
 
-使用模块名：`auth`, `pet`, `chat`, `health`, `growth`, `home`, `profile`, `api`, `nav`
+使用模块名：`auth`, `pet`, `care-ai`, `health`, `device`, `vaccination`, `growth`, `home`, `profile`, `api`, `nav`
 
 ## 五、CHANGELOG 规范
 
