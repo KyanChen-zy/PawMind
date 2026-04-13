@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PetModule } from './modules/pet/pet.module';
 import { HealthModule } from './modules/health/health.module';
 import { GrowthModule } from './modules/growth/growth.module';
+import { DeviceModule } from './modules/device/device.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { GrowthModule } from './modules/growth/growth.module';
     PetModule,
     HealthModule,
     GrowthModule,
+    DeviceModule,
   ],
 })
 export class AppModule {}
