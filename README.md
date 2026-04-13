@@ -1,8 +1,8 @@
 # PawMind 🐾
 
-AI 驱动的宠物陪伴应用，帮助都市宠物主人在工作和出行期间，通过 AI 互动、健康追踪和成长记录，与宠物保持情感连接。
+AI 驱动的宠物健康管理应用，帮助都市宠物主人通过智能设备数据采集、健康指标可视化、AI 辅助诊断和健康知识服务，全面掌握宠物健康状况。
 
-> 宠物不会说话，但 AI 可以帮它们表达。
+> 让 AI 成为宠物的私人健康管家。
 
 ## 技术栈
 
@@ -61,11 +61,14 @@ npm run test:cov
 npm run lint
 ```
 
-## 核心功能（v1.0 MVP）
+## 核心功能（v2.0）
 
 - **宠物档案** — 3 步宠物建档，多宠管理
-- **AI 陪伴聊天** — 宠物视角对话，情绪标签
-- **健康管理** — 每日健康追踪，异常检测与分级预警
+- **健康管理** — 多渠道数据采集，健康指标卡（24h/7天），数据可视化，异常预警
+- **设备管理** — 智能设备绑定/配对，设备状态监控，展示型商城
+- **健康档案** — 就诊记录 + 日常观察，支持打字/OCR/语音输入
+- **电子疫苗本** — 条形码扫描添加疫苗，接种提醒
+- **CareAI** — 健康知识问答，每日小知识，AI 拍照诊断（口腔/粪便/皮肤/报告/药品）
 - **成长记录** — 照片/视频时间线，AI 月度成长报告
 - **用户中心** — 账户管理与设置
 
@@ -73,8 +76,9 @@ npm run lint
 
 详细文档位于 `docs/` 目录：
 
-- [产品需求文档](docs/prd/v1.0-mvp.md)
-- [产品架构](docs/architecture/product-architecture-v1.0.md)
+- [产品需求文档 v2.0](docs/prd/v2.0-ai-health.md)
+- [产品架构 v2.0](docs/architecture/product-architecture-v2.0.md)
+- [技术设计 v2.0](docs/design/2026-04-13-v2.0-ai-health-design.md)
 - [编码规范](docs/guides/coding-guidelines.md)
 - [Git 工作流](docs/guides/git-workflow.md)
 - [更新日志](docs/changelog/CHANGELOG.md)
