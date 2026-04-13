@@ -3,12 +3,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, StyleSheet } from 'react-native';
 import { COLORS, BORDER_RADIUS, SHADOWS } from '../constants/theme';
 import { HomeScreen } from '../screens/home/home-screen';
-import { ChatScreen } from '../screens/chat/chat-screen';
 import { HealthScreen } from '../screens/health/health-screen';
 import { GrowthScreen } from '../screens/growth/growth-screen';
 import { ProfileScreen } from '../screens/profile/profile-screen';
 
 const Tab = createBottomTabNavigator();
+
+// Temporary placeholder until CareAI screen is built in Task 13
+const PlaceholderScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text>CareAI (Coming Soon)</Text>
+  </View>
+);
 
 export function MainTabs() {
   return (
@@ -48,17 +54,17 @@ export function MainTabs() {
           ) 
         }} 
       />
-      <Tab.Screen 
-        name="Chat" 
-        component={ChatScreen} 
-        options={{ 
-          tabBarLabel: 'AI陪伴', 
+      <Tab.Screen
+        name="CareAI"
+        component={PlaceholderScreen}
+        options={{
+          tabBarLabel: 'CareAI',
           tabBarIcon: ({ color, focused }) => (
             <View style={[styles.iconContainer, focused && styles.iconContainerActive]}>
-              <Text style={{ fontSize: 22, color }}>💬</Text>
+              <Text style={{ fontSize: 22, color }}>🩺</Text>
             </View>
-          ) 
-        }} 
+          )
+        }}
       />
       <Tab.Screen 
         name="Health" 

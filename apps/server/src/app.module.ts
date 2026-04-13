@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { PetModule } from './modules/pet/pet.module';
-import { ChatModule } from './modules/chat/chat.module';
 import { HealthModule } from './modules/health/health.module';
 import { GrowthModule } from './modules/growth/growth.module';
 
@@ -25,7 +24,6 @@ import { GrowthModule } from './modules/growth/growth.module';
     }),
     AuthModule,
     PetModule,
-    ChatModule,
     HealthModule,
     GrowthModule,
   ],
