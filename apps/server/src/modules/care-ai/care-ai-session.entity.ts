@@ -1,8 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Pet } from '../pet/pet.entity';
 
-@Entity('conversations')
-export class Conversation {
+@Entity('care_ai_sessions')
+export class CareAiSession {
   @PrimaryGeneratedColumn()
   id: number;
 

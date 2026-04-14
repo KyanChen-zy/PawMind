@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { HealthService } from './health.service';
 import { HealthLog } from './health-log.entity';
+import { HealthMetric } from './health-metric.entity';
+import { HealthRecord } from './health-record.entity';
 import { PetService } from '../pet/pet.service';
 
 describe('HealthService', () => {
@@ -13,10 +15,13 @@ describe('HealthService', () => {
       create: jest.fn((d) => d), save: jest.fn((d) => ({ id: 1, ...d })),
       find: jest.fn().mockResolvedValue([]), findOne: jest.fn().mockResolvedValue(null),
     };
+    const emptyRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn(), findOne: jest.fn(), remove: jest.fn() };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         HealthService,
         { provide: getRepositoryToken(HealthLog), useValue: repo },
+        { provide: getRepositoryToken(HealthMetric), useValue: emptyRepo },
+        { provide: getRepositoryToken(HealthRecord), useValue: emptyRepo },
         { provide: PetService, useValue: { findOne: jest.fn().mockResolvedValue({ id: 1, userId: 1 }) } },
       ],
     }).compile();

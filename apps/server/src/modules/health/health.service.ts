@@ -1,8 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between } from 'typeorm';
+import { Repository, Between, MoreThanOrEqual } from 'typeorm';
 import { HealthLog } from './health-log.entity';
+import { HealthMetric } from './health-metric.entity';
+import { HealthRecord } from './health-record.entity';
 import { CreateHealthLogDto } from './dto/create-health-log.dto';
+import { CreateHealthMetricDto } from './dto/create-health-metric.dto';
+import { CreateHealthRecordDto } from './dto/create-health-record.dto';
+import { UpdateHealthRecordDto } from './dto/update-health-record.dto';
 import { PetService } from '../pet/pet.service';
 
 const WEIGHT_THRESHOLD = 0.05;
@@ -11,6 +16,8 @@ const WEIGHT_THRESHOLD = 0.05;
 export class HealthService {
   constructor(
     @InjectRepository(HealthLog) private readonly logRepo: Repository<HealthLog>,
+    @InjectRepository(HealthMetric) private readonly metricRepo: Repository<HealthMetric>,
+    @InjectRepository(HealthRecord) private readonly recordRepo: Repository<HealthRecord>,
     private readonly petService: PetService,
   ) {}
 
@@ -68,5 +75,73 @@ export class HealthService {
     await this.petService.findOne(log.petId, userId);
     log.isAlert = false;
     return this.logRepo.save(log);
+  }
+
+  // HealthMetric methods
+  async recordMetric(userId: number, dto: CreateHealthMetricDto): Promise<HealthMetric> {
+    await this.petService.findOne(dto.petId, userId);
+    const metric = this.metricRepo.create({ ...dto, recordedAt: new Date(dto.recordedAt) });
+    return this.metricRepo.save(metric);
+  }
+
+  async getMetrics(petId: number, userId: number, type?: string, range?: string): Promise<HealthMetric[]> {
+    await this.petService.findOne(petId, userId);
+    const since = new Date();
+    if (range === '24h') since.setHours(since.getHours() - 24);
+    else since.setDate(since.getDate() - 7);
+    const where: any = { petId, recordedAt: MoreThanOrEqual(since) };
+    if (type) where.metricType = type;
+    return this.metricRepo.find({ where, order: { recordedAt: 'ASC' } });
+  }
+
+  async getMetricSummary(petId: number, userId: number, range: string): Promise<Record<string, any>> {
+    const metrics = await this.getMetrics(petId, userId, undefined, range);
+    const grouped: Record<string, HealthMetric[]> = {};
+    for (const m of metrics) {
+      if (!grouped[m.metricType]) grouped[m.metricType] = [];
+      grouped[m.metricType].push(m);
+    }
+    const summary: Record<string, any> = {};
+    for (const [type, items] of Object.entries(grouped)) {
+      const values = items.map(i => Number(i.value));
+      summary[type] = {
+        latest: values[values.length - 1],
+        min: Math.min(...values),
+        max: Math.max(...values),
+        avg: Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 100) / 100,
+        count: values.length,
+      };
+    }
+    return summary;
+  }
+
+  // HealthRecord methods
+  async createRecord(petId: number, userId: number, dto: CreateHealthRecordDto): Promise<HealthRecord> {
+    await this.petService.findOne(petId, userId);
+    const record = this.recordRepo.create({ ...dto, petId });
+    return this.recordRepo.save(record);
+  }
+
+  async findRecords(petId: number, userId: number): Promise<HealthRecord[]> {
+    await this.petService.findOne(petId, userId);
+    return this.recordRepo.find({ where: { petId }, order: { createdAt: 'DESC' } });
+  }
+
+  async findRecord(id: number, userId: number): Promise<HealthRecord> {
+    const record = await this.recordRepo.findOne({ where: { id } });
+    if (!record) throw new NotFoundException('记录不存在');
+    await this.petService.findOne(record.petId, userId);
+    return record;
+  }
+
+  async updateRecord(id: number, userId: number, dto: UpdateHealthRecordDto): Promise<HealthRecord> {
+    const record = await this.findRecord(id, userId);
+    Object.assign(record, dto);
+    return this.recordRepo.save(record);
+  }
+
+  async deleteRecord(id: number, userId: number): Promise<void> {
+    const record = await this.findRecord(id, userId);
+    await this.recordRepo.remove(record);
   }
 }

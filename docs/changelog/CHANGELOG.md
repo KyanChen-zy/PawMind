@@ -4,36 +4,27 @@
 
 ## [Unreleased]
 
+## [v2.0.0] - 2026-04-13
+
 ### 新增
-- 补充 growth 模块和 user 模块单元测试（总测试数 6 套件 24 用例）
-
-### 优化
-- 首页 UI 全面重设计（状态卡片、快捷操作栏、健康指标、入场动画）
-- 登录/注册页面视觉升级（渐变背景、卡片布局、动画效果）
-- AI 陪伴对话页 UI 优化（气泡样式、快捷话题栏）
-- 健康管理页 UI 优化（健康指标卡片、趋势图样式）
-- 成长记录页 UI 优化（时间轴卡片、空状态引导）
-- 宠物建档页 UI 优化（3 步流程卡片化、动画过渡）
-- 个人中心页 UI 优化（宠物信息卡片、菜单样式）
-- 底部 TabBar 视觉升级（图标、配色、选中状态）
-- 主题色系统增强（新增渐变色、阴影层级、字体规范）
-
-### 修复
-- 修复首页动画透明度卡在低值的问题（分离数据加载与动画逻辑）
-- 修复 Web 端聊天输入框不显示（移除 KeyboardAvoidingView）
-- 修复 Web 端首页不渲染（移除错误的 linking 配置）
-- 修复 add-pet-screen JSX 标签不匹配
-- 修复 growth-screen 缺少 SHADOWS 导入
-- 修复 expo-secure-store 在 Web 端不可用（增加 localStorage 降级）
-- 修复 jest 测试脚本无法执行（改用 npx jest）
+- **健康管理升级**：多渠道数据采集（设备 + 手动），健康指标卡（24h/7天），数据可视化
+- **设备管理**：设备绑定/解绑/详情，3步配对向导（Mock），展示型商城（外链购买）
+- **健康档案**：就诊记录 + 日常观察，支持打字/OCR/语音输入（OCR/语音 v2.0 为占位）
+- **电子疫苗本**：条形码扫描添加疫苗（扫描 v2.0 为占位），接种提醒
+- **CareAI 模块**：健康知识问答（Mock），每日小知识，AI 诊断（口腔/粪便/皮肤/报告/药品，Mock）
+- 后端新增 device、vaccination、care-ai 模块，扩展 health 模块（HealthMetric、HealthRecord）
+- 41 个单元测试，9 个测试套件
 
 ### 变更
-- 文档目录重组为标准化结构（architecture/prd/design/plans/guides/changelog）
-- 新增项目管理规则 (PROJECT_RULES.md)
-- 新增产品架构文档 (product-architecture-v1.0.md)
-- 新增开发指南（preview-guide / git-workflow / ui-design-optimization）
-- 后端 dev 脚本改用 ts-node 直接运行
-- .gitignore 增强 .DS_Store 全局忽略
+- 移除 AI 陪伴聊天模块（宠物视角对话），替换为 CareAI
+- 底部导航：「AI陪伴」→「CareAI」
+- 版本路线图更新：v2.0 重新定义为 AI 健康管理，原社区功能推迟至 v3.0
+- PROJECT_RULES.md 更新模块 scope（新增 care-ai、device、vaccination）
+
+### 技术变更
+- 删除 chat 模块（Conversation、Message 实体）
+- 新增 9 个数据库实体：Device、DeviceProduct、HealthMetric、HealthRecord、Vaccination、CareAiSession、CareAiMessage、DailyTip、DiagnosisReport
+- 新增 14 个移动端页面，3 个 Zustand Store，4 个 API Service
 
 ---
 
