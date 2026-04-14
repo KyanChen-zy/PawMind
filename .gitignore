@@ -10,3 +10,9 @@ coverage/
 .superpowers/
 .claude/
 .claire/
+
+# Superpowers AI generated docs
+docs/superpowers/
+
+# Windows thumbnail cache
+Thumbs.db
